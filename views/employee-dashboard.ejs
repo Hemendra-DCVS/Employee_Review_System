@@ -1,0 +1,19 @@
+<!-- views/partials/dashboard.ejs -->
+
+<div class="container mt-5">
+    <h1>Welcome to Your Dashboard</h1>
+    <h2>Performance Reviews Requiring Feedback:</h2>
+    <ul class="list-group">
+        <% if (performanceReviews.length > 0) { %>
+            <% performanceReviews.forEach(function(review) { %>
+                <li class="list-group-item">
+                    <a href="/performance-review/<%= review._id %>">
+                        <%= review.title %>
+                    </a>
+                </li>
+            <% }); %>
+        <% } else { %>
+            <li class="list-group-item">No performance reviews requiring feedback at the moment.</li>
+        <% } %>
+    </ul>
+</div>
