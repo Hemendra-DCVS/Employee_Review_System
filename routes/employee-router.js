@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Employee = require('../models/Employee'); // Import your Employee model
-
+const PerformanceReview = require('../models/PerformanceReview');
 
 // Add an Employee (Create)
 router.post('/add-employee', async (req, res) => {
@@ -24,7 +24,14 @@ router.post('/add-employee', async (req, res) => {
         });
 
         await newEmployee.save();
-        res.redirect('back'); // Redirect back to the admin dashboard
+        const employees = await Employee.find();
+        const performanceReviews = await PerformanceReview.find().populate('assignedTo');
+        
+        // Create an empty performanceReview object to be used in the 'assign-employees-form'
+        const emptyPerformanceReview = {};
+        
+        // Render the admin dashboard view
+        res.render('admin-dashboard', { employees, performanceReviews, performanceReview: emptyPerformanceReview }); // Redirect back to the admin dashboard
     } catch (error) {
         // Handle errors
         res.status(500).send('An error occurred while adding the employee.');
@@ -39,7 +46,14 @@ router.get('/remove-employee/:id', async (req, res) => {
   // Find and remove an employee by ID
   try {
       await Employee.findByIdAndRemove(req.params.id);
-      res.redirect('back');
+      const employees = await Employee.find();
+      const performanceReviews = await PerformanceReview.find().populate('assignedTo');
+      
+      // Create an empty performanceReview object to be used in the 'assign-employees-form'
+      const emptyPerformanceReview = {};
+      
+      // Render the admin dashboard view
+      res.render('admin-dashboard', { employees, performanceReviews, performanceReview: emptyPerformanceReview });
   } catch (error) {
       // Handle errors by redirecting back
       res.redirect('back');
@@ -51,7 +65,15 @@ router.get('/remove-employee/:id', async (req, res) => {
 router.get('/update-employee/:id', async (req, res) => {
     const employee = await Employee.findById(req.params.id);
     const employees = await Employee.find(); // Fetch all employees for rendering the dashboard
-    res.render('admin-dashboard', { employees, updateEmployee: employee });
+
+   
+    const performanceReviews = await PerformanceReview.find().populate('assignedTo');
+    // Create an empty performanceReview object to be used in the 'assign-employees-form'
+    const emptyPerformanceReview = {};
+    
+    // Render the admin dashboard view
+   
+    res.render('admin-dashboard', { employees,performanceReviews, performanceReview: emptyPerformanceReview, updateEmployee: employee,  });
 });
 
 
@@ -104,7 +126,14 @@ router.get('/make-admin/:id', async (req, res) => {
       const employee = await Employee.findById(req.params.id);
       employee.isAdmin = true;
       await employee.save();
-      res.redirect('/admin/view-employees');
+      const employees = await Employee.find();
+      const performanceReviews = await PerformanceReview.find().populate('assignedTo');
+      
+      // Create an empty performanceReview object to be used in the 'assign-employees-form'
+      const emptyPerformanceReview = {};
+      
+      // Render the admin dashboard view
+      res.render('admin-dashboard', { employees, performanceReviews, performanceReview: emptyPerformanceReview });
   } catch (error) {
       // Handle errors by redirecting back
       res.redirect('back');

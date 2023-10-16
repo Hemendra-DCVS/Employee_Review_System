@@ -2,6 +2,11 @@
 const express = require('express');
 const router = express.Router();
 
+const mongoose = require('mongoose');
+const PerformanceReview = require('../models/PerformanceReview');
+const Employee = require('../models/Employee');
+const Feedback = require('../models/Feedback');
+
 
 // Define your homepage route
 router.get('/', (req, res) => {
@@ -35,10 +40,6 @@ router.get('/register', (req, res) => {
 });
 
 
-const mongoose = require('mongoose');
-const PerformanceReview = mongoose.model('PerformanceReview'); // Replace with the actual model name
-const Employee = mongoose.model('Employee');
-const Feedback = mongoose.model('Feedback');
 
 // Define the /dashboard route
 router.get('/dashboard', async (req, res) => {
@@ -59,11 +60,15 @@ router.get('/dashboard', async (req, res) => {
     if (user.isAdmin) {
       // Fetch admin-specific data
       const employees = await Employee.find();
-      const performanceReviews = await PerformanceReview.find();
-
+      const performanceReviews = await PerformanceReview.find().populate('assignedTo');
+      
+      // Create an empty performanceReview object to be used in the 'assign-employees-form'
+      const emptyPerformanceReview = {};
+      
       // Render the admin dashboard view
-      res.render('admin-dashboard', { employees, performanceReviews });
-    } else {
+      res.render('admin-dashboard', { employees, performanceReviews, performanceReview: emptyPerformanceReview });
+    }
+     else {
       // Fetch employee-specific data
       const performanceReviews = await PerformanceReview.find({ assignedTo: userId });
 

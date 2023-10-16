@@ -6,11 +6,15 @@ const performanceReviewSchema = new mongoose.Schema({
     required: true,
   },
   description: String,
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Employee',
-  },
+  assignedTo: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Employee',
+    },
+  ],
   // Add other performance review-related fields here
 });
 
-module.exports = mongoose.model('PerformanceReview', performanceReviewSchema);
+
+const  PerformanceReview = mongoose.model('PerformanceReview', performanceReviewSchema);
+ module.exports =  PerformanceReview;

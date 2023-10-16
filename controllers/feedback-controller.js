@@ -1,6 +1,6 @@
 // controllers/feedback-controller.js
 const mongoose = require('mongoose');
-const Feedback = mongoose.model('Feedback'); // Assuming you've defined the model
+const Feedback = require('./feedback'); // Assuming you've defined the model
 
 // Display a list of all feedback
 exports.feedbackList = async (req, res) => {
