@@ -81,6 +81,16 @@ router.get('/dashboard', async (req, res) => {
   }
 });
 
+router.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      // Handle any error that might occur during logout
+      console.error(err);
+      return res.redirect('/login'); // Redirect to the login page or another page
+    }
+    res.redirect('/login'); // Redirect to the login page or any other page
+  });
+});
 
 
 
