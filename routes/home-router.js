@@ -17,13 +17,13 @@ router.get('/', (req, res) => {
 
 
 // Route requests starting with /employee to the employee router
-router.use('/admin', require('./employee-router'));
+router.use('/admin', require('./admin-router'));
 
 // Route requests starting with /performance-review to the performance review router
 router.use('/performance-review', require('./performance-review-router'));
 
 // Route requests starting with /feedback to the feedback router
-router.use('/feedback', require('./feedback-router'));
+router.use('/feedback', require('./employee-router'));
 
 // Redirect requests to the 'auth-router'
 router.use('/auth', require('./auth-router'));
@@ -69,8 +69,15 @@ router.get('/dashboard', async (req, res) => {
       res.render('admin-dashboard', { employees, performanceReviews, performanceReview: emptyPerformanceReview });
     }
      else {
+     
       // Fetch employee-specific data
-      const performanceReviews = await PerformanceReview.find({ assignedTo: userId });
+      const userId = req.session.passport.user; // Get the ID of the logged-in employee
+
+      // Fetch performance reviews assigned to the logged-in employee
+      const performanceReviews = await PerformanceReview.find({
+        assignedTo: { $in: [userId] },
+      });
+
 
       // Render the employee dashboard view
       res.render('employee-dashboard', { performanceReviews });

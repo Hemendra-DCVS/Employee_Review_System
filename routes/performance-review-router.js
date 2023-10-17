@@ -1,3 +1,5 @@
+//these routes are part-II of the admin dashboard page related routes
+
 const express = require('express');
 const router = express.Router();
 const PerformanceReview = require('../models/PerformanceReview');

@@ -37,10 +37,9 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-
 // Handle registration form submission
 router.post('/register', (req, res) => {
-  const { username, password, isAdmin } = req.body;
+  const { username, password } = req.body;
 
   Employee.findOne({ username })
     .then((existingUser) => {
@@ -48,7 +47,7 @@ router.post('/register', (req, res) => {
         return res.status(400).send('Username already exists');
       }
 
-      const newUser = new Employee({ username, password, isAdmin: !!isAdmin });
+      const newUser = new Employee({ username, password });
 
       newUser.save()
         .then(() => {
