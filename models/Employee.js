@@ -14,7 +14,7 @@ const employeeSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  // Add other employee-related fields here
+  
 });
 
 module.exports = mongoose.model('Employee', employeeSchema);

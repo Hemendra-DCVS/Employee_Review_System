@@ -12,7 +12,7 @@ const performanceReviewSchema = new mongoose.Schema({
       ref: 'Employee',
     },
   ],
-  // Add other performance review-related fields here
+ 
 });
 
 

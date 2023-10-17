@@ -15,7 +15,7 @@ const feedbackSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // Add other feedback-related fields here
+  
 });
 
 module.exports = mongoose.model('Feedback', feedbackSchema);

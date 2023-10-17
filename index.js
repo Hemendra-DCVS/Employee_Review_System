@@ -2,26 +2,27 @@ const express = require('express');
 const port = 8000;
 const app = express();
 
-// Import database configuration
 const db = require('./config/mongoose');
-const Employee = require('./models/Employee'); // Adjust the path as needed
-const PerformanceReview = require('./models/PerformanceReview'); // Adjust the path as needed
-const Feedback = require('./models/Feedback'); // Adjust the path as needed
-
-
+const Employee = require('./models/Employee');
+const PerformanceReview = require('./models/PerformanceReview');
+const Feedback = require('./models/Feedback');
 const expressLayouts = require('express-ejs-layouts');
 app.use(expressLayouts);
-
 
 const flash = require('connect-flash');
 const passport = require('passport');
 const passportConfig = require('./config/passport-config');
+
+require('dotenv').config();
+const secret_key =  process.env.SECRET_KEY
+
 // Initialize Passport and set up its configuration
 passportConfig(passport);
 app.use(passport.initialize());
+
 const session = require('express-session');
 app.use(session({
-  secret: 'your-secret-key', // Replace with a secure secret
+  secret: secret_key, 
   resave: false,
   saveUninitialized: true
 }));
