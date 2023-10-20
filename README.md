@@ -18,6 +18,10 @@ The Employee Review System (ERS) is a web application designed to streamline the
     For employees, ERS provides a simplified view with essential features. They can access a list of pending performance reviews that require their feedback, making it easy to provide timely input. Employees can also view the details of ongoing reviews and submit feedback, facilitating a collaborative feedback process.
 
 
+#### Prerequisites
+- Node.js and npm installed
+- MongoDB installed and running
+- Git (for cloning the repository)
 
 ##### Getting Started : Installation
 
